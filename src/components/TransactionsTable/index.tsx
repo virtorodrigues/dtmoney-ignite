@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api, client, q } from '../../services/api';
+import { client, q } from '../../services/api';
 import { Container } from './styles';
 
 interface TransactionsProps {
