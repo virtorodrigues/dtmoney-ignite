@@ -3,6 +3,8 @@ import { Header } from "./components/Header";
 import { GlobalStyle } from "./styles/global";
 import { client, q } from './services/api';
 import { useEffect, useState } from "react";
+import Modal from 'react-modal';
+import { NewTransactionModal } from "./components/NewTransactionModal";
 
 interface TransactionsProps {
   data: {
@@ -14,6 +16,8 @@ interface TransactionsProps {
     createdAt: Date;
   }
 }
+
+Modal.setAppElement('#root');
 
 function App() {
 
@@ -65,10 +69,26 @@ function App() {
 
   }
 
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+
+  function handleOpenNewTransactionModal() {
+    setIsNewTransactionModalOpen(true);
+  }
+
+  function handleCloseNewTransactionModal() {
+    setIsNewTransactionModalOpen(false);
+  }
+
   return (
     <>
-      <Header addTransaction={addTransaction} />
+      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
       <Dashboard transactions={transactions} />
+
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+      />
+
       <GlobalStyle />
     </>
   );
