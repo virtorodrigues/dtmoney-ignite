@@ -46,7 +46,7 @@ function App() {
        })*/
   }, []);
 
-  function addTransaction() {
+  /*function addTransaction() {
     client
       .query(
         q.Create(q.Collection('transactions'), {
@@ -67,7 +67,7 @@ function App() {
       })
       .catch(error => console.error('Error: ', error.message));
 
-  }
+  }*/
 
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
 
