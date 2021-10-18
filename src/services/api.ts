@@ -2,7 +2,7 @@ import axios from 'axios';
 import faunadb from 'faunadb';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: document.location.href + 'api'
 })
 
 export const client = new faunadb.Client({

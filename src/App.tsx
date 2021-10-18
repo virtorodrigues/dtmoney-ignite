@@ -1,50 +1,40 @@
 import { Dashboard } from "./components/Dashboard";
 import { Header } from "./components/Header";
 import { GlobalStyle } from "./styles/global";
-import { client, q } from './services/api';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from 'react-modal';
 import { NewTransactionModal } from "./components/NewTransactionModal";
-
-interface TransactionsProps {
-  data: {
-    id: number;
-    title: string;
-    amount: number;
-    type: string;
-    category: string;
-    createdAt: Date;
-  }
-}
+import { TransactionsProvider } from "./hooks/useTransactions";
 
 Modal.setAppElement('#root');
 
 function App() {
 
-  const [transactions, setTransactions] = useState<TransactionsProps[]>([]);
+  //const [transactions, setTransactions] = useState<TransactionsProps[]>([]);
 
-  useEffect(() => {
+  //useEffect(() => {
 
-    const response = client
-      .query(q.Paginate(q.Match(q.Ref('indexes/all_transactions'))))
-      .then((response) => {
-        //@ts-ignore
-        const expenseRef = response.data;
-        //@ts-ignore
-        const getAllDataQuery = expenseRef.map(ref => {
-          return q.Get(ref);
-        });
-        return client.query(getAllDataQuery).then(data => data);
+  /*const response = client
+    .query(q.Paginate(q.Match(q.Ref('indexes/all_transactions'))))
+    .then((response) => {
+      //@ts-ignore
+      const expenseRef = response.data;
+      //@ts-ignore
+      const getAllDataQuery = expenseRef.map(ref => {
+        return q.Get(ref);
       });
+      return client.query(getAllDataQuery).then(data => data);
+    });
 
-    //@ts-ignore
-    response.then(data => setTransactions(data))
-
-    /*api.get<TransactionsProps[]>('transactions')
-       .then((response) => {
-         setTransactions(response.data);
-       })*/
-  }, []);
+  //@ts-ignore
+  response.then(data => setTransactions(data))
+*/
+  // api.get('transactions')
+  //    .then((response) => {
+  //setTransactions(response.data);
+  //      console.log(response.data);
+  //    })
+  // }, []);
 
   /*function addTransaction() {
     client
@@ -80,9 +70,9 @@ function App() {
   }
 
   return (
-    <>
+    <TransactionsProvider>
       <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
-      <Dashboard transactions={transactions} />
+      <Dashboard />
 
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
@@ -90,7 +80,7 @@ function App() {
       />
 
       <GlobalStyle />
-    </>
+    </TransactionsProvider>
   );
 }
 

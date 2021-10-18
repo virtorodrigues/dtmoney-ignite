@@ -1,17 +1,19 @@
+import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from './styles';
 
 interface TransactionsProps {
-  data: {
-    id: number;
-    title: string;
-    amount: number;
-    type: string;
-    category: string;
-    createdAt: Date;
-  }
-}
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+};
 
-export function TransactionsTable(props: any) {
+export function TransactionsTable() {
+
+  const { transactions } = useTransactions();
+
   return (
     <Container>
       <table>
@@ -24,12 +26,23 @@ export function TransactionsTable(props: any) {
           </tr>
         </thead>
         <tbody>
-          {props.transactions.map((transaction: TransactionsProps) => (
-            <tr key={transaction.data.id}>
-              <td className="title">{transaction.data.title}</td>
-              <td className={transaction.data.type}>R${transaction.data.amount}</td>
-              <td>{transaction.data.category}</td>
-              <td>{transaction.data.createdAt}</td>
+          {transactions.map((transaction: TransactionsProps) => (
+            <tr key={transaction.id}>
+
+              <td className="title">{transaction.title}</td>
+
+              <td className={transaction.type}>
+                {new Intl.NumberFormat('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(transaction.amount)}
+              </td>
+
+              <td>{transaction.category}</td>
+
+              <td>
+                {new Intl.DateTimeFormat('pt-br').format(new Date(transaction.createdAt))}
+              </td>
             </tr>
           ))}
         </tbody>

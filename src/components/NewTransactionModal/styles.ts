@@ -58,7 +58,7 @@ export const TransactionTypeContainer = styled.div`
 interface RadioBoxProps {
   isActive: boolean;
   activeColor: 'green' | 'red';
-}
+};
 
 const colors = {
   green: '#33CC95',
